@@ -16,9 +16,9 @@ class bluetoothException(Exception):
 
 #--------- Data Trasnmitter Between Wrapper And Server
 class data_transmitter():
-    server_address = "localhost"
+    server_address = "http://127.0.0.1:3000/beacons/"
     server_port = 3000
-    url = "{}:{}".format(server_address , server_port)
+    url = server_address
 
     def send_data(self , data):
         try :
@@ -198,19 +198,24 @@ class wrapper():
 
 
 if __name__ == "__main__" :
-    print("intiating")
-    pp = pprint.PrettyPrinter(indent=4)
-    wrapper = wrapper()
-    print("scanning")
-    for i in range(1 , 10):
-        print(i)
-        time.sleep(0.1)
-    print("getting available devices")
-    dev_list = wrapper.get_beacons_info()
-    counter = 0
-    for dev_info in dev_list :
-        print(">>>> Result #{} <<<<".format(counter))
-        pp.pprint(dev_info)
-        print("Estimated distance : {} meters".format(wrapper.calculate_distance((dev_info["RSSI"]))))
-        print("--------------------")
-        counter = counter + 1
+    # print("intiating")
+    # pp = pprint.PrettyPrinter(indent=4)
+    # wrapper = wrapper()
+    # print("scanning")
+    # for i in range(1 , 10):
+    #     print(i)
+    #     time.sleep(0.1)
+    # print("getting available devices")
+    # dev_list = wrapper.get_beacons_info()
+    # counter = 0
+    # for dev_info in dev_list :
+    #     print(">>>> Result #{} <<<<".format(counter))
+    #     pp.pprint(dev_info)
+    #     print("Estimated distance : {} meters".format(wrapper.calculate_distance((dev_info["RSSI"]))))
+    #     print("--------------------")
+    #     counter = counter + 1
+
+    print("fetch data from server")
+    transmitter = data_transmitter()
+    r = transmitter.fetch_beacons_mac_address()
+    print(str(r.content))
